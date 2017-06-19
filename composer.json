@@ -1,7 +1,7 @@
 {
-    "name": "jsnlib/jsnlib",
+    "name": "jsnlib/checksum",
     "type": "library",
-    "description": "類別庫",
+    "description": "產生校驗碼，可連同參數夾帶，在服務端 (server) 驗證參數是否被修改。",
     "keywords": ["library"],
     "require": {},
     "require-dev": {
