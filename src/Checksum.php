@@ -34,8 +34,8 @@ class Checksum
 
     /**
      * 建立校驗碼流程
-     * 1. 先將參數依序 "符號 - 大寫 - 小寫 - 數字" 排列
-     * 2. 加入 checksum
+     * 1. 先加入 checksum
+     * 2. 將參數依序 "符號 - 大寫 - 小寫 - 數字" 排列
      * 3. 產生 hash
      * 
      * @param  array  $param 參數
@@ -43,8 +43,8 @@ class Checksum
      */
     public function create_hash($param = [], $is_sort = false): string
     {
-        if ($is_sort === true) $param = $this->sort($param);
         $param = $this->add_key($param);
+        if ($is_sort === true) $param = $this->sort($param);
         $hash = $this->hash($param);
         return $hash;
     }
@@ -56,6 +56,7 @@ class Checksum
      */
     public function mix($param = [], string $checksum): array
     {
+        
         $param['checksum'] = $checksum;
         return $param;
     }
@@ -75,10 +76,9 @@ class Checksum
 
         // list(來源校驗碼, 其餘參數)
         list($checksum_from, $else_param) = $this->split_checksum($param);
-        // print_r($else_param);die;
 
         // 依據來源的參數，產生本地的校驗碼
-        $checksum_local = $this->create_hash($else_param, false);
+        $checksum_local = $this->create_hash($else_param, true);
 
         $status = ($checksum_from === $checksum_local) ? true : false;
         
@@ -122,10 +122,10 @@ class Checksum
         return hash('sha512', $result);
     }
 
-    // 在陣列插入 checksum
+    // 在陣列插入 key
     protected function add_key($param)
     {
-        $param['checksum'] = $this->key;
+        $param['__APP__KEY__'] = $this->key;
         return $param;
     }
 }
