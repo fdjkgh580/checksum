@@ -26,7 +26,7 @@ class Checksum
      */
     public function quick($param = []): array
     {
-        $checksum = $this->create_hash($param, true);
+        $checksum = $this->create_hash($param);
         $ary = $this->mix($param, $checksum);
         $ary = $this->sort($ary);
         return $ary;
@@ -39,12 +39,11 @@ class Checksum
      * 3. 產生 hash
      * 
      * @param  array  $param 參數
-     * @param  is_sort  是否重排 *false| true
      */
-    public function create_hash($param = [], $is_sort = false): string
+    public function create_hash($param = []): string
     {
         $param = $this->add_key($param);
-        if ($is_sort === true) $param = $this->sort($param);
+        $param = $this->sort($param);
         $hash = $this->hash($param);
         return $hash;
     }
@@ -78,7 +77,7 @@ class Checksum
         list($checksum_from, $else_param) = $this->split_checksum($param);
 
         // 依據來源的參數，產生本地的校驗碼
-        $checksum_local = $this->create_hash($else_param, true);
+        $checksum_local = $this->create_hash($else_param);
 
         $status = ($checksum_from === $checksum_local) ? true : false;
         
