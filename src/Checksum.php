@@ -71,6 +71,7 @@ class Checksum
         if (empty($param['checksum'])) return 
         [
             'status' => false,
+            'code' => 'Empty \'checksum\''
         ];
 
         // list(來源校驗碼, 其餘參數)
